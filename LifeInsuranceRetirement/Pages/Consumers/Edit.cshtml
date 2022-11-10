@@ -1,0 +1,55 @@
+﻿@page "{consumerId:int?}"
+@model LifeInsuranceRetirement.Pages.Consumers.EditModel
+@{
+    ViewData["Title"] = "Edit";
+}
+<div>
+    <form method="post">
+        <input type="hidden" readonly asp-for="Consumer.Id" />
+        <div class="form-group">
+            <div class="form-group">
+                <label asp-for="Consumer.Name"></label>
+                <input asp-for="Consumer.Name" class="form-control" />
+                <span class="text-danger" asp-validation-for="Consumer.Name"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Consumer.BasicSalary"></label>
+                <input asp-for="Consumer.BasicSalary" class="form-control" />
+                <span class="text-danger" asp-validation-for="Consumer.BasicSalary"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Consumer.BirthDate"></label>
+                <input asp-for="Consumer.BirthDate" class="form-control" />
+                <span class="text-danger" asp-validation-for="Consumer.BirthDate"></span>
+            </div>
+        </div>
+        <a asp-page="./List" class="btn btn-primary">Back to List</a> <button type="submit" class="btn btn-primary">Calculate</button>
+    </form>
+</div>
+@if (Model.Consumer.Benefits != null)
+{
+    <div class="mt-5">
+            <table class="table">
+                <tr>
+                    <th>Multiple</th>
+                    <th>Benefits Amount Quotation</th>
+                    <th>Pended Amount</th>
+                    <th>Benefits</th>
+                </tr>
+                @foreach (var benefits in Model.Consumer.Benefits)
+                {
+                    <tr>
+                        <td>@benefits.Multiple</td>
+                        <td>@benefits.BenefitsAmountQuotation.ToString("#,##0")</td>
+                        <td>@benefits.PendedAmount.ToString("#,##0")</td>
+                        <td>@benefits.Status</td>
+                    </tr>
+                }
+            </table>
+    </div>
+}
+
+@if (Model.Message != null)
+{
+    <div class="alert alert-info message">@Model.Message</div>
+}

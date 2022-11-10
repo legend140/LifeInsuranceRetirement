@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>595f8086-b0df-499e-9eaf-998e3c79aa61</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\LifeInsuranceRetirement.Data\LifeInsuranceRetirement.Data.csproj" />
+  </ItemGroup>
+
+</Project>

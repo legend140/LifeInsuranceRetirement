@@ -1,0 +1,17 @@
+C:\exam\LifeInsuranceRetirement\LifeInsuranceRetirement.Data\bin\Debug\net6.0\LifeInsuranceRetirement.Data.deps.json
+C:\exam\LifeInsuranceRetirement\LifeInsuranceRetirement.Data\bin\Debug\net6.0\LifeInsuranceRetirement.Data.runtimeconfig.json
+C:\exam\LifeInsuranceRetirement\LifeInsuranceRetirement.Data\bin\Debug\net6.0\LifeInsuranceRetirement.Data.dll
+C:\exam\LifeInsuranceRetirement\LifeInsuranceRetirement.Data\bin\Debug\net6.0\LifeInsuranceRetirement.Data.pdb
+C:\exam\LifeInsuranceRetirement\LifeInsuranceRetirement.Data\bin\Debug\net6.0\LifeInsuranceRetirement.Core.dll
+C:\exam\LifeInsuranceRetirement\LifeInsuranceRetirement.Data\bin\Debug\net6.0\LifeInsuranceRetirement.Core.pdb
+C:\exam\LifeInsuranceRetirement\LifeInsuranceRetirement.Data\obj\Debug\net6.0\LifeInsuranceRetirement.Data.csproj.AssemblyReference.cache
+C:\exam\LifeInsuranceRetirement\LifeInsuranceRetirement.Data\obj\Debug\net6.0\LifeInsuranceRetirement.Data.GeneratedMSBuildEditorConfig.editorconfig
+C:\exam\LifeInsuranceRetirement\LifeInsuranceRetirement.Data\obj\Debug\net6.0\LifeInsuranceRetirement.Data.AssemblyInfoInputs.cache
+C:\exam\LifeInsuranceRetirement\LifeInsuranceRetirement.Data\obj\Debug\net6.0\LifeInsuranceRetirement.Data.AssemblyInfo.cs
+C:\exam\LifeInsuranceRetirement\LifeInsuranceRetirement.Data\obj\Debug\net6.0\LifeInsuranceRetirement.Data.csproj.CoreCompileInputs.cache
+C:\exam\LifeInsuranceRetirement\LifeInsuranceRetirement.Data\obj\Debug\net6.0\LifeInsuranceRetirement.Data.csproj.CopyComplete
+C:\exam\LifeInsuranceRetirement\LifeInsuranceRetirement.Data\obj\Debug\net6.0\LifeInsuranceRetirement.Data.dll
+C:\exam\LifeInsuranceRetirement\LifeInsuranceRetirement.Data\obj\Debug\net6.0\refint\LifeInsuranceRetirement.Data.dll
+C:\exam\LifeInsuranceRetirement\LifeInsuranceRetirement.Data\obj\Debug\net6.0\LifeInsuranceRetirement.Data.pdb
+C:\exam\LifeInsuranceRetirement\LifeInsuranceRetirement.Data\obj\Debug\net6.0\LifeInsuranceRetirement.Data.genruntimeconfig.cache
+C:\exam\LifeInsuranceRetirement\LifeInsuranceRetirement.Data\obj\Debug\net6.0\ref\LifeInsuranceRetirement.Data.dll

@@ -1,0 +1,12 @@
+C:\exam\LifeInsuranceRetirement\LifeInsuranceRetirement.Core\bin\Debug\net6.0\LifeInsuranceRetirement.Core.deps.json
+C:\exam\LifeInsuranceRetirement\LifeInsuranceRetirement.Core\bin\Debug\net6.0\LifeInsuranceRetirement.Core.dll
+C:\exam\LifeInsuranceRetirement\LifeInsuranceRetirement.Core\bin\Debug\net6.0\LifeInsuranceRetirement.Core.pdb
+C:\exam\LifeInsuranceRetirement\LifeInsuranceRetirement.Core\obj\Debug\net6.0\LifeInsuranceRetirement.Core.csproj.AssemblyReference.cache
+C:\exam\LifeInsuranceRetirement\LifeInsuranceRetirement.Core\obj\Debug\net6.0\LifeInsuranceRetirement.Core.GeneratedMSBuildEditorConfig.editorconfig
+C:\exam\LifeInsuranceRetirement\LifeInsuranceRetirement.Core\obj\Debug\net6.0\LifeInsuranceRetirement.Core.AssemblyInfoInputs.cache
+C:\exam\LifeInsuranceRetirement\LifeInsuranceRetirement.Core\obj\Debug\net6.0\LifeInsuranceRetirement.Core.AssemblyInfo.cs
+C:\exam\LifeInsuranceRetirement\LifeInsuranceRetirement.Core\obj\Debug\net6.0\LifeInsuranceRetirement.Core.csproj.CoreCompileInputs.cache
+C:\exam\LifeInsuranceRetirement\LifeInsuranceRetirement.Core\obj\Debug\net6.0\LifeInsuranceRetirement.Core.dll
+C:\exam\LifeInsuranceRetirement\LifeInsuranceRetirement.Core\obj\Debug\net6.0\refint\LifeInsuranceRetirement.Core.dll
+C:\exam\LifeInsuranceRetirement\LifeInsuranceRetirement.Core\obj\Debug\net6.0\LifeInsuranceRetirement.Core.pdb
+C:\exam\LifeInsuranceRetirement\LifeInsuranceRetirement.Core\obj\Debug\net6.0\ref\LifeInsuranceRetirement.Core.dll

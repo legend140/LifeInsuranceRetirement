@@ -1,0 +1,45 @@
+﻿@page
+@model LifeInsuranceRetirement.Pages.Consumers.ListModel
+@{
+    ViewData["Title"] = "Consumers";
+}
+<h1>@ViewData["Title"]</h1>
+
+<form method="get">
+    <div class="form-group">
+        <div class="input-group">
+            <input type="search" class="form-control" value="" name="searchTerm" />
+            <span class="input-group-btn">
+                <button class="btn btn-primary">
+                    <i class="bi bi-search"></i>
+                </button>
+            </span>
+        </div>
+    </div>
+</form>
+
+<table class="table">
+    <tr>
+        <th>Name</th>
+        <th>Basic Salary</th>
+        <th>Birthdate</th>
+        <th>Action</th>
+    </tr>
+    @foreach(var consumer in Model.Consumers) {
+        <tr>
+            <td>@consumer.Name</td>
+            <td>@consumer.BasicSalary.ToString("#,##0")</td>
+            <td>@consumer.BirthDate.ToString("MMM dd, yyyy")</td>
+            <td>
+                <a class="btn btn-success" asp-page="./Edit" asp-route-consumerId="@consumer.Id">
+                    <i class="bi bi-pencil"></i>
+                </a>
+                <a class="btn btn-danger" asp-page="./Delete" asp-route-consumerId="@consumer.Id">
+                    <i class="bi bi-trash"></i>
+                </a>
+            </td>
+        </tr>
+    }
+</table>
+
+<a asp-page=".\Edit" class="btn btn-primary">Add New</a>

@@ -1,0 +1,47 @@
+﻿@page
+@model LifeInsuranceRetirement.Pages.SetupModel
+@{
+    ViewData["Title"] = "Setup";
+}
+<h1>@ViewData["Title"]</h1>
+
+<div>
+    <form method="post">
+        <div class="form-group">
+            <label asp-for="Configuration.GuaranteedIssue"></label>
+            <input asp-for="Configuration.GuaranteedIssue" class="form-control" />
+            <span class="text-danger" asp-validation-for="Configuration.GuaranteedIssue"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Configuration.MaxAgeLimit"></label>
+            <input asp-for="Configuration.MaxAgeLimit" class="form-control" />
+            <span class="text-danger" asp-validation-for="Configuration.MaxAgeLimit"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Configuration.MinAgeLimit"></label>
+            <input asp-for="Configuration.MinAgeLimit" class="form-control" />
+            <span class="text-danger" asp-validation-for="Configuration.MinAgeLimit"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Configuration.MinRange"></label>
+            <input asp-for="Configuration.MinRange" class="form-control" />
+            <span class="text-danger" asp-validation-for="Configuration.MinRange"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Configuration.MaxRange"></label>
+            <input asp-for="Configuration.MaxRange" class="form-control" />
+            <span class="text-danger" asp-validation-for="Configuration.MaxRange"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Configuration.Increments"></label>
+            <input asp-for="Configuration.Increments" class="form-control" />
+            <span class="text-danger" asp-validation-for="Configuration.Increments"></span>
+        </div>
+        <button type="submit" class="btn btn-primary">Save</button>
+    </form>
+</div>
+
+@if (Model.Message != null)
+{
+    <div class="alert alert-info message">@Model.Message</div>
+}
