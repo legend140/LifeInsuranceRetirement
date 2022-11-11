@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LifeInsuranceRetirement.Cor
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LifeInsuranceRetirement.Data", "LifeInsuranceRetirement.Data\LifeInsuranceRetirement.Data.csproj", "{E3A3341B-1E4A-40B2-A69B-38F048B8FDA6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LifeInsuranceRetirement.Api", "LifeInsuranceRetirement.Api\LifeInsuranceRetirement.Api.csproj", "{930BCC1A-CA1A-46FC-AD85-2EDC9E5FE058}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LifeInsuranceRetirement.Api", "LifeInsuranceRetirement.Api\LifeInsuranceRetirement.Api.csproj", "{930BCC1A-CA1A-46FC-AD85-2EDC9E5FE058}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LifeInsuranceRetirment.Core.Tests", "LifeInsuranceRetirment.Core.Tests\LifeInsuranceRetirment.Core.Tests.csproj", "{A4AD5AC1-B950-4921-ABA9-9752BBA7D252}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{930BCC1A-CA1A-46FC-AD85-2EDC9E5FE058}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{930BCC1A-CA1A-46FC-AD85-2EDC9E5FE058}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{930BCC1A-CA1A-46FC-AD85-2EDC9E5FE058}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A4AD5AC1-B950-4921-ABA9-9752BBA7D252}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A4AD5AC1-B950-4921-ABA9-9752BBA7D252}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A4AD5AC1-B950-4921-ABA9-9752BBA7D252}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A4AD5AC1-B950-4921-ABA9-9752BBA7D252}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
