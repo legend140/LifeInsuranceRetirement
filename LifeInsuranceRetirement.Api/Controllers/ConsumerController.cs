@@ -9,10 +9,10 @@ namespace LifeInsuranceRetirement.Api.Controllers
     [Route("api/[controller]")]
     public class ConsumerController : ControllerBase
     {
-        private readonly ILogger<SetupController> _logger;
+        private readonly ILogger<ConsumerController> _logger;
         private readonly IConsumerData _consumerData;
 
-        public ConsumerController(ILogger<SetupController> logger, IConsumerData consumerData)
+        public ConsumerController(ILogger<ConsumerController> logger, IConsumerData consumerData)
         {
             _logger = logger;
             _consumerData = consumerData;
