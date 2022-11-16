@@ -15,5 +15,6 @@ namespace LifeInsuranceRetirement.Core
         public int BasicSalary { get; set; }
         [DataType(DataType.Date)]
         public DateTime BirthDate { get; set; }
+        public int? BenefitId { get; set; }
     }
 }

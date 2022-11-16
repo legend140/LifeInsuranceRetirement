@@ -17,6 +17,7 @@ builder.Services.AddDbContextPool<LifeInsuranceRetirementDbContext>(options =>
 });
 builder.Services.AddScoped<IConfigurationData, SQLConfigurationData>();
 builder.Services.AddScoped<IConsumerData, SQLConsumerData>();
+builder.Services.AddScoped<IBenefitData, SQLBenefitData>();
 
 var app = builder.Build();
 

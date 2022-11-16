@@ -3,10 +3,12 @@ using System.Text.Json.Serialization;
 
 namespace LifeInsuranceRetirement.Core
 {
-    public class Configuration
+    public class ConfigurationDTO
     {
         [Key]
+        [JsonIgnore]
         public int Id { get; set; }
+
         [Required]
         [Range(1, 1000000, ErrorMessage = "Guaranteed Issue should be greater than or equal to 1 and less than or equal to 1000000.")]
         public int GuaranteedIssue { get; set; }
@@ -25,11 +27,5 @@ namespace LifeInsuranceRetirement.Core
         [Required]
         [Range(1, 100, ErrorMessage = "Increments should be greater than or equal to 1 and less than or equal to 100.")]
         public int Increments { get; set; }
-
-        public string? UpdatedBy { get; set; }
-        public DateTime? UpdatedDT { get; set; }
-        public string? CreatedBy { get; set; }
-        public DateTime CreatedDT { get; set; }
-        public bool IsDeleted { get; set; }
     }
 }

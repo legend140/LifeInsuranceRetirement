@@ -32,26 +32,93 @@ namespace LifeInsuranceRetirement.Api.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Configuration>> Post([FromBody] Configuration value)
+        public async Task<ActionResult<Configuration>> Post([FromBody] ConfigurationDTO value)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var configuration = await _configurationData.SaveAsync(value);
+            string user = "Ronito Asinjo Jr."; // Hard Coded for now since didn't implement user login
+
+            var configuration = await _configurationData.AddAsync(new Configuration
+            {
+                GuaranteedIssue = value.GuaranteedIssue,
+                MaxAgeLimit = value.MaxAgeLimit,
+                MinAgeLimit = value.MinAgeLimit,
+                MinRange = value.MinRange,
+                MaxRange = value.MaxRange,
+                Increments = value.Increments,
+                CreatedBy = user,
+                CreatedDT = DateTime.Now
+            });
+            await _configurationData.CommitAsync();
+
+            var addConfigLogs = new ConfigurationLogs
+            {
+                ConfigurationId = configuration.Id,
+                LogType = LogType.Created,
+                GuaranteedIssue = value.GuaranteedIssue,
+                MaxAgeLimit = value.MaxAgeLimit,
+                MinAgeLimit = value.MinAgeLimit,
+                MinRange = value.MinRange,
+                MaxRange = value.MaxRange,
+                Increments = value.Increments,
+                LoggedBy = user,
+                LoggedDT = DateTime.Now,
+            };
+
+            await _configurationData.AddLogsAsync(addConfigLogs);
+            await _configurationData.CommitAsync();
+
             return Ok(configuration);
         }
 
-        [HttpPut]
-        public async Task<ActionResult<Configuration>> Put([FromBody] Configuration value)
+        [HttpPut("{Id}")]
+        public async Task<ActionResult<Configuration>> Put([FromBody] ConfigurationDTO value)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var configuration = await _configurationData.SaveAsync(value);
+            string user = "Ronito Asinjo Jr."; // Hard Coded for now since didn't implement user login
+
+            var configuration = await _configurationData.UpdateAsync(new Configuration
+            {
+                Id = value.Id,
+                GuaranteedIssue = value.GuaranteedIssue,
+                MaxAgeLimit = value.MaxAgeLimit,
+                MinAgeLimit = value.MinAgeLimit,
+                MinRange = value.MinRange,
+                MaxRange = value.MaxRange,
+                Increments = value.Increments,
+                UpdatedBy = user,
+                UpdatedDT = DateTime.Now
+            });
+            if (configuration == null)
+            {
+                return NotFound();
+            }
+            await _configurationData.CommitAsync();
+
+            var addConfigLogs = new ConfigurationLogs
+            {
+                ConfigurationId = configuration.Id,
+                LogType = LogType.Updated,
+                GuaranteedIssue = value.GuaranteedIssue,
+                MaxAgeLimit = value.MaxAgeLimit,
+                MinAgeLimit = value.MinAgeLimit,
+                MinRange = value.MinRange,
+                MaxRange = value.MaxRange,
+                Increments = value.Increments,
+                LoggedBy = user,
+                LoggedDT = DateTime.Now,
+            };
+
+            await _configurationData.AddLogsAsync(addConfigLogs);
+            await _configurationData.CommitAsync();
+
             return Ok(configuration);
         }
     }

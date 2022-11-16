@@ -37,20 +37,23 @@ namespace LifeInsuranceRetirment.Core.Tests
         {
             const int expectedBenefitsAmountQuotation = 160000;
             const int multiple = 2;
-            var benefits = new List<Benefits>();
 
-            benefits.Add(new Benefits
-            {
+            var benefit = new Benefit {
+                Id = 1,
                 ConsumerId = consumer.Id,
                 Consumer = consumer,
                 ConfigurationId = configuration.Id,
-                Configuration = configuration,
-                Multiple = multiple
+                Configuration = configuration
+            };
+
+            var benefitDetailProp = new List<BenefitDetailProp>();
+            benefitDetailProp.Add(new BenefitDetailProp {
+                BenefitId = benefit.Id,
+                Benefit = benefit,
+                Multiple = multiple,
             });
 
-            consumer.Benefits = benefits;
-
-            Assert.AreEqual(consumer.Benefits?.FirstOrDefault()?.BenefitsAmountQuotation, expectedBenefitsAmountQuotation);
+            Assert.AreEqual(benefitDetailProp.First().BenefitsAmountQuotation, expectedBenefitsAmountQuotation);
         }
 
         [TestMethod]
@@ -60,96 +63,112 @@ namespace LifeInsuranceRetirment.Core.Tests
             const int expectedPendedAmount = 30000;
             const int multiple = 1;
 
-            var benefits = new List<Benefits>();
-
-            benefits.Add(new Benefits
+            var benefit = new Benefit
             {
+                Id = 1,
                 ConsumerId = consumer.Id,
                 Consumer = consumer,
                 ConfigurationId = configuration.Id,
-                Configuration = configuration,
-                Multiple = multiple
+                Configuration = configuration
+            };
+
+            var benefitDetailProp = new List<BenefitDetailProp>();
+            benefitDetailProp.Add(new BenefitDetailProp
+            {
+                BenefitId = benefit.Id,
+                Benefit = benefit,
+                Multiple = multiple,
             });
 
-            consumer.Benefits = benefits;
-
-            Assert.AreEqual(consumer.Benefits?.FirstOrDefault()?.PendedAmount, expectedPendedAmount);
+            Assert.AreEqual(benefitDetailProp.First().PendedAmount, expectedPendedAmount);
         }
 
         [TestMethod]
         [Description("Check if Benefits Status is For Approval")]
         public void CheckIfBenefitsStatusIsForApproval()
         {
-            const string expectedBenefitsStatus = "For Approval";
+            const BenefitStatus expectedBenefitsStatus = BenefitStatus.ForApproval;
             const int multiple = 1;
 
-            var benefits = new List<Benefits>();
-
-            benefits.Add(new Benefits
+            var benefit = new Benefit
             {
+                Id = 1,
                 ConsumerId = consumer.Id,
                 Consumer = consumer,
                 ConfigurationId = configuration.Id,
-                Configuration = configuration,
-                Multiple = multiple
+                Configuration = configuration
+            };
+
+            var benefitDetailProp = new List<BenefitDetailProp>();
+            benefitDetailProp.Add(new BenefitDetailProp
+            {
+                BenefitId = benefit.Id,
+                Benefit = benefit,
+                Multiple = multiple,
             });
 
-            consumer.Benefits = benefits;
-
-            Assert.AreEqual(consumer.Benefits?.FirstOrDefault()?.Status, expectedBenefitsStatus);
+            Assert.AreEqual(benefitDetailProp.First().Status, expectedBenefitsStatus);
         }
 
         [TestMethod]
         [Description("Check if Benefits Status is Approved and should return the Amount since there is nothing to Pend.")]
         public void CheckIfBenefitsStatusIsApproved()
         {
-            const string expectedBenefitsStatus = "5,000";
+            const BenefitStatus expectedBenefitsStatus = BenefitStatus.Approved;
             const int multiple = 1;
 
             configuration.GuaranteedIssue = 15000;
             consumer.BasicSalary = 5000;
 
-            var benefits = new List<Benefits>();
-
-            benefits.Add(new Benefits
+            var benefit = new Benefit
             {
+                Id = 1,
                 ConsumerId = consumer.Id,
                 Consumer = consumer,
                 ConfigurationId = configuration.Id,
-                Configuration = configuration,
-                Multiple = multiple
+                Configuration = configuration
+            };
+
+            var benefitDetailProp = new List<BenefitDetailProp>();
+            benefitDetailProp.Add(new BenefitDetailProp
+            {
+                BenefitId = benefit.Id,
+                Benefit = benefit,
+                Multiple = multiple,
             });
 
-            consumer.Benefits = benefits;
-
-            Assert.AreEqual(consumer.Benefits?.FirstOrDefault()?.Status, expectedBenefitsStatus);
+            Assert.AreEqual(benefitDetailProp.First().Status, expectedBenefitsStatus);
         }
 
         [TestMethod]
         [Description("Check if Age is not within range, benefits will automatically approve and nothing will Pend.")]
         public void CheckIfAgeNotWithinRangeBenefitsAutomaticallyApproved()
         {
-            const string expectedBenefitsStatus = "25,000";
+            const BenefitStatus expectedBenefitsStatus = BenefitStatus.Approved;
             const int multiple = 5;
 
             configuration.GuaranteedIssue = 15000;
             consumer.BasicSalary = 5000;
             consumer.BirthDate = DateTime.Now;
 
-            var benefits = new List<Benefits>();
-
-            benefits.Add(new Benefits
+            var benefit = new Benefit
             {
+                Id = 1,
                 ConsumerId = consumer.Id,
                 Consumer = consumer,
                 ConfigurationId = configuration.Id,
-                Configuration = configuration,
-                Multiple = multiple
+                Configuration = configuration
+            };
+
+            var benefitDetailProp = new List<BenefitDetailProp>();
+            benefitDetailProp.Add(new BenefitDetailProp
+            {
+                BenefitId = benefit.Id,
+                Benefit = benefit,
+                Multiple = multiple,
             });
 
-            consumer.Benefits = benefits;
-
-            Assert.AreEqual(consumer.Benefits?.FirstOrDefault()?.Status, expectedBenefitsStatus);
+            Assert.AreEqual(benefitDetailProp.First().Status, expectedBenefitsStatus);
         }
     }
 }

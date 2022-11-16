@@ -12,67 +12,99 @@ namespace LifeInsuranceRetirement.Data
             this.db = db;
         }
 
-        public Configuration Get()
+        public Configuration? Get()
         {
-            var configuration = db.Configuration.FirstOrDefault();
-            if (configuration == null)
-            {
-                configuration = new Configuration();
-            }
-            return configuration;
+            return db.Configuration.FirstOrDefault(c => !c.IsDeleted);
         }
 
-        public Configuration Save(Configuration savedConfiguration)
+        public Configuration Add(Configuration addConfiguration)
+        {
+            db.Configuration.Add(addConfiguration);
+            return addConfiguration;
+        }
+
+        public Configuration? Update(Configuration updateConfiguration)
         {
             var checkConfiguration = Get();
-            savedConfiguration.Id = checkConfiguration.Id;
-
-            db.Entry(checkConfiguration).State = EntityState.Detached;
-
-            if (checkConfiguration.Id == 0)
+            if (checkConfiguration != null)
             {
-                db.Configuration.Add(savedConfiguration);
-            } else
-            {
-                var entity = db.Configuration.Attach(savedConfiguration);
+                db.Entry(checkConfiguration).State = EntityState.Detached;
+
+                updateConfiguration.Id = checkConfiguration.Id;
+                updateConfiguration.CreatedBy = checkConfiguration.CreatedBy;
+                updateConfiguration.CreatedDT = checkConfiguration.CreatedDT;
+
+                var entity = db.Configuration.Attach(updateConfiguration);
                 entity.State = EntityState.Modified;
+
+                checkConfiguration = updateConfiguration;
             }
 
-            db.SaveChanges();
-
-            return savedConfiguration;
+            return checkConfiguration;
         }
 
-        public async Task<Configuration> GetAsync()
+        public IEnumerable<ConfigurationLogs> GetLogs(int configurationId)
         {
-            var configuration = await db.Configuration.FirstOrDefaultAsync();
-            if (configuration == null)
-            {
-                configuration = new Configuration();
-            }
-            return configuration;
+            return db.ConfigurationLogs.Where(l => l.ConfigurationId == configurationId).ToList();
         }
 
-        public async Task<Configuration> SaveAsync(Configuration savedConfiguration)
+        public ConfigurationLogs AddLogs(ConfigurationLogs addConfigurationLogs)
+        {
+            db.ConfigurationLogs.Add(addConfigurationLogs);
+            return addConfigurationLogs;
+        }
+
+        public async Task<Configuration?> GetAsync()
+        {
+            return await db.Configuration
+                .FirstOrDefaultAsync(c => !c.IsDeleted);
+        }
+
+        public async Task<Configuration> AddAsync(Configuration addConfiguration)
+        {
+            await db.Configuration.AddAsync(addConfiguration);
+            return addConfiguration;
+        }
+
+        public async Task<Configuration?> UpdateAsync(Configuration updateConfiguration)
         {
             var checkConfiguration = await GetAsync();
-            savedConfiguration.Id = checkConfiguration.Id;
-
-            db.Entry(checkConfiguration).State = EntityState.Detached;
-
-            if (checkConfiguration.Id == 0)
+            if (checkConfiguration != null)
             {
-                await db.Configuration.AddAsync(savedConfiguration);
-            }
-            else
-            {
-                var entity = db.Configuration.Attach(savedConfiguration);
+                db.Entry(checkConfiguration).State = EntityState.Detached;
+
+                updateConfiguration.Id = checkConfiguration.Id;
+                updateConfiguration.CreatedBy = checkConfiguration.CreatedBy;
+                updateConfiguration.CreatedDT = checkConfiguration.CreatedDT;
+
+                var entity = db.Configuration.Attach(updateConfiguration);
                 entity.State = EntityState.Modified;
+
+                checkConfiguration = updateConfiguration;
             }
 
-            await db.SaveChangesAsync();
+            return checkConfiguration;
+        }
 
-            return savedConfiguration;
+        public async Task<IEnumerable<ConfigurationLogs>> GetLogsAsync(int configurationId)
+        {
+            return await db.ConfigurationLogs.Where(l => l.ConfigurationId == configurationId).ToListAsync();
+        }
+
+        public async Task<ConfigurationLogs> AddLogsAsync(ConfigurationLogs addConfigurationLogs)
+        {
+            await db.ConfigurationLogs.AddAsync(addConfigurationLogs);
+            return addConfigurationLogs;
+        }
+
+        public int Commit()
+        {
+            return db.SaveChanges();
+        }
+
+        public async Task<int> CommitAsync()
+        {
+            return await db.SaveChangesAsync();
         }
     }
 }

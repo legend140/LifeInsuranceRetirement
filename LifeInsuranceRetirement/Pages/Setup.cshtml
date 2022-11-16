@@ -1,4 +1,4 @@
-﻿@page
+﻿@page "{configurationId:int?}"
 @model LifeInsuranceRetirement.Pages.SetupModel
 @{
     ViewData["Title"] = "Setup";
@@ -7,6 +7,7 @@
 
 <div>
     <form method="post">
+        <input type="hidden" readonly asp-for="Configuration.Id" />
         <div class="form-group">
             <label asp-for="Configuration.GuaranteedIssue"></label>
             <input asp-for="Configuration.GuaranteedIssue" class="form-control" />
@@ -37,8 +38,15 @@
             <input asp-for="Configuration.Increments" class="form-control" />
             <span class="text-danger" asp-validation-for="Configuration.Increments"></span>
         </div>
+        @if (Model.Configuration?.UpdatedDT != null)
+        {
+            <div class="form-group mt-2">
+                <span>Last Updated: @Model.Configuration.UpdatedDT</span>
+            </div>
+        }
         <button type="submit" class="btn btn-primary">Save</button>
     </form>
+    
 </div>
 
 @if (Model.Message != null)

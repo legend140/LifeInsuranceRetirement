@@ -9,13 +9,17 @@ namespace LifeInsuranceRetirement.Data
         Consumer Add(Consumer addConsumer);
         Consumer? Update(Consumer updateConsumer);
         Consumer? Delete(int id);
-        Consumer CalculateBenefits(Consumer calculateConsumer);
+        IEnumerable<ConsumerLogs> GetLogs(int consumerId);
+        ConsumerLogs AddLogs(ConsumerLogs addConsumerLogs);
+        int Commit();
 
         Task<IEnumerable<Consumer>> GetConsumersByNameAsync(string name);
         Task<Consumer?> GetByIdAsync(int id);
         Task<Consumer> AddAsync(Consumer addConsumer);
         Task<Consumer?> UpdateAsync(Consumer updateConsumer);
         Task<Consumer?> DeleteAsync(int id);
-        Task<Consumer> CalculateBenefitsAsync(Consumer calculateConsumer);
+        Task<IEnumerable<ConsumerLogs>> GetLogsAsync(int consumerId);
+        Task<ConsumerLogs> AddLogsAsync(ConsumerLogs addConsumerLogs);
+        Task<int> CommitAsync();
     }
 }

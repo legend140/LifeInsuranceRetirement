@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics.CodeAnalysis;
@@ -18,7 +19,12 @@ namespace LifeInsuranceRetirement.Core
         [DataType(DataType.Date)]
         public DateTime BirthDate { get; set; }
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        public ICollection<Benefits>? Benefits { get; set; }
+        public ICollection<Benefit>? Benefits { get; set; }
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        public Benefit? Benefit { get; set; }
+        [ForeignKey("Benefit")]
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        public int? BenefitId { get; set; }
         public int Age
         {
             get
@@ -32,5 +38,12 @@ namespace LifeInsuranceRetirement.Core
                 return age;
             }
         }
+
+        public string? UpdatedBy { get; set; }
+        public DateTime? UpdatedDT { get; set; }
+        public string? CreatedBy { get; set; }
+        public DateTime CreatedDT { get; set; }
+        public Boolean IsDeleted { get; set; }
+
     }
 }

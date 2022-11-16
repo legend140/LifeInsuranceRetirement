@@ -3,53 +3,127 @@
 @{
     ViewData["Title"] = "Edit";
 }
-<div>
+<div class="card mt-3">
     <form method="post">
-        <input type="hidden" readonly asp-for="Consumer.Id" />
-        <div class="form-group">
-            <div class="form-group">
-                <label asp-for="Consumer.Name"></label>
-                <input asp-for="Consumer.Name" class="form-control" />
-                <span class="text-danger" asp-validation-for="Consumer.Name"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Consumer.BasicSalary"></label>
-                <input asp-for="Consumer.BasicSalary" class="form-control" />
-                <span class="text-danger" asp-validation-for="Consumer.BasicSalary"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Consumer.BirthDate"></label>
-                <input asp-for="Consumer.BirthDate" class="form-control" />
-                <span class="text-danger" asp-validation-for="Consumer.BirthDate"></span>
-            </div>
+        <div class="card-header">
+            Consumer Detail
         </div>
-        <a asp-page="./List" class="btn btn-primary">Back to List</a> <button type="submit" class="btn btn-primary">Calculate</button>
+        <div class="card-body">
+            <div class="row">
+                <input type="hidden" readonly asp-for="Consumer.Id" />
+                <div class="form-group">
+                    <div class="form-group">
+                        <label asp-for="Consumer.Name"></label>
+                        <input asp-for="Consumer.Name" class="form-control" />
+                        <span class="text-danger" asp-validation-for="Consumer.Name"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Consumer.BasicSalary"></label>
+                        <input asp-for="Consumer.BasicSalary" class="form-control" />
+                        <span class="text-danger" asp-validation-for="Consumer.BasicSalary"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Consumer.BirthDate"></label>
+                        <input asp-for="Consumer.BirthDate" class="form-control" />
+                        <span class="text-danger" asp-validation-for="Consumer.BirthDate"></span>
+                    </div>
+                </div>
+            </div>
+            @if (Model.Consumer?.Benefit != null)
+            {
+                <div class="row">
+                    <div class="card mt-3">
+                        <div class="card-header">
+                            Benefit Detail
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <table class="table">
+                                    <tr>
+                                        <th>Multiple</th>
+                                        <th>Benefits Amount Quotation</th>
+                                        <th>Pended Amount</th>
+                                        <th>Benefits</th>
+                                    </tr>
+                                    @if (Model.Consumer.Benefit.BenefitDetails != null)
+                                    {
+                                        @foreach (var detail in Model.Consumer.Benefit.BenefitDetails)
+                                        {
+                                            <tr>
+                                                <td>@detail.Multiple</td>
+                                                <td>@detail.BenefitsAmountQuotation.ToString("#,##0")</td>
+                                                <td>@detail.PendedAmount.ToString("#,##0")</td>
+                                                @if (@detail.Status == Core.BenefitStatus.ForApproval)
+                                                {
+                                                    <td>For Approval</td>
+                                                }
+                                                else
+                                                {
+                                                    <td>@detail.BenefitsAmountQuotation.ToString("#,##0")</td>
+                                                }
+                                            </tr>
+                                        }
+                                    }
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+        <div class="card-footer">
+            <a asp-page="./List" class="btn btn-primary">Back to List</a>
+            <button type="submit" class="btn btn-primary">@Model.submitBtn</button>
+            @if (Model.Message != null)
+            {
+                <div class="alert alert-info message">@Model.Message</div>
+            }
+        </div>
     </form>
 </div>
-@if (Model.Consumer.Benefits != null)
-{
-    <div class="mt-5">
-            <table class="table">
-                <tr>
-                    <th>Multiple</th>
-                    <th>Benefits Amount Quotation</th>
-                    <th>Pended Amount</th>
-                    <th>Benefits</th>
-                </tr>
-                @foreach (var benefits in Model.Consumer.Benefits)
-                {
-                    <tr>
-                        <td>@benefits.Multiple</td>
-                        <td>@benefits.BenefitsAmountQuotation.ToString("#,##0")</td>
-                        <td>@benefits.PendedAmount.ToString("#,##0")</td>
-                        <td>@benefits.Status</td>
-                    </tr>
-                }
-            </table>
-    </div>
-}
 
-@if (Model.Message != null)
+@if (Model.ConsumerHistory != null)
 {
-    <div class="alert alert-info message">@Model.Message</div>
+    <div class="card mt-3">
+        <div class="card-header">
+            Benefit History
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <table class="table benefits mt-3">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Log Type</th>
+                            <th>Consumer Name</th>
+                            <th>Basic Salary</th>
+                            <th>Birth Date</th>
+                            <th>Logged By</th>
+                            <th>Logged On</th>
+                            <th>Benefit</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var consumer in Model.ConsumerHistory)
+                        {
+                            <tr>
+                                <td>@consumer.Id</td>
+                                <td>@consumer.LogType</td>
+                                <td>@consumer.Name</td>
+                                <td>@consumer.BasicSalary.ToString("#,##0")</td>
+                                <td>@consumer.BirthDate.ToString("MMM dd, yyyy")</td>
+                                <td>@consumer.LoggedBy</td>
+                                <td>@consumer.LoggedDT.ToString("MMM dd, yyyy")</td>
+                                <td>
+                                    <button class="btn btn-primary" type="button" title="View Benefit Detail">
+                                        <i class="bi bi-eye"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 }

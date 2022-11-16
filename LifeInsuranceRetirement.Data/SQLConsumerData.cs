@@ -6,22 +6,24 @@ namespace LifeInsuranceRetirement.Data
     public class SQLConsumerData : IConsumerData
     {
         private readonly LifeInsuranceRetirementDbContext db;
-        private readonly IConfigurationData configurationData;
 
-        public SQLConsumerData(LifeInsuranceRetirementDbContext db, IConfigurationData configurationData)
+        public SQLConsumerData(LifeInsuranceRetirementDbContext db)
         {
             this.db = db;
-            this.configurationData = configurationData;
         }
 
         public IEnumerable<Consumer> GetConsumersByName(string name)
         {
-            return db.Consumers.Where(c => (c.Name != null && c.Name.StartsWith(name)) || string.IsNullOrEmpty(name)).ToList();
+            return db.Consumers.Where(c => !c.IsDeleted && ((c.Name != null && c.Name.StartsWith(name)) || string.IsNullOrEmpty(name))).ToList();
         }
 
         public Consumer GetById(int id)
         {
-            var consumer = db.Consumers.Include(c => c.Benefits).FirstOrDefault(c => c.Id == id);
+            var consumer = db.Consumers
+                .Include(c => c.Benefit)
+                .ThenInclude(b => b.BenefitDetails)
+                .FirstOrDefault(c => c.Id == id && !c.IsDeleted);
+
             if (consumer == null)
             {
                 consumer = new Consumer();
@@ -32,12 +34,7 @@ namespace LifeInsuranceRetirement.Data
         public Consumer Add(Consumer addConsumer)
         {
             db.Consumers.Add(addConsumer);
-
-            db.SaveChanges();
-
-            var calculatedConsumer = CalculateBenefits(addConsumer);
-
-            return calculatedConsumer;
+            return addConsumer;
         }
 
         public Consumer? Update(Consumer updateConsumer)
@@ -47,15 +44,12 @@ namespace LifeInsuranceRetirement.Data
             if (consumer != null)
             {
                 db.Entry(consumer).State = EntityState.Detached;
-
+                updateConsumer.Id = consumer.Id;
+                updateConsumer.CreatedBy = consumer.CreatedBy;
+                updateConsumer.CreatedDT = consumer.CreatedDT;
                 var entity = db.Consumers.Attach(updateConsumer);
                 entity.State = EntityState.Modified;
-
-                db.SaveChanges();
-
-                var calculatedConsumer = CalculateBenefits(updateConsumer);
-
-                return calculatedConsumer;
+                consumer = updateConsumer;
             }
 
             return consumer;
@@ -64,71 +58,45 @@ namespace LifeInsuranceRetirement.Data
         public Consumer? Delete(int id)
         {
             var consumer = GetById(id);
-
             if (consumer != null)
             {
-                if (consumer.Benefits?.Count() > 0)
-                {
-                    db.Benefits.RemoveRange(consumer.Benefits);
-                }
-
-                db.Consumers.Remove(consumer);
-                db.SaveChanges();
+                consumer.IsDeleted = true;
             }
-
             return consumer;
         }
 
-        public Consumer CalculateBenefits(Consumer calculateConsumer)
+        public IEnumerable<ConsumerLogs> GetLogs(int consumerId)
         {
-            var configuration = configurationData.Get();
-            var consumer = GetById(calculateConsumer.Id);
+            return db.ConsumerLogs
+                .Include(l => l.Benefit)
+                .ThenInclude(b => b.BenefitDetails)
+                .Where(l => l.ConsumerId == consumerId)
+                .ToList();
+        }
 
-            if (consumer.Benefits?.Count() > 0)
-            {
-                db.Benefits.RemoveRange(consumer.Benefits);
-                db.SaveChanges();
-            }
-
-            var newBenefits = new List<Benefits>();
-
-            for (int i = (configuration.MinRange ?? 1); i <= (configuration.MaxRange ?? 1); i += (configuration.Increments ?? 1))
-            {
-                newBenefits.Add(new Benefits()
-                {
-                    Multiple = i,
-                    ConfigurationId = configuration.Id,
-                    ConsumerId = consumer.Id
-                });
-            }
-
-            consumer.Benefits = newBenefits;
-
-            db.SaveChanges();
-
-            return consumer;
+        public ConsumerLogs AddLogs(ConsumerLogs addConsumerLogs)
+        {
+            db.ConsumerLogs.Add(addConsumerLogs);
+            return addConsumerLogs;
         }
 
         public async Task<IEnumerable<Consumer>> GetConsumersByNameAsync(string name)
         {
-            return await db.Consumers.Where(c => (c.Name != null && c.Name.StartsWith(name)) || string.IsNullOrEmpty(name)).ToListAsync();
+            return await db.Consumers.Where(c => !c.IsDeleted && ((c.Name != null && c.Name.StartsWith(name)) || string.IsNullOrEmpty(name))).ToListAsync();
         }
 
         public async Task<Consumer?> GetByIdAsync(int id)
         {
-            var consumer = await db.Consumers.Include(c => c.Benefits).FirstOrDefaultAsync(c => c.Id == id);
-            return consumer;
+            return await db.Consumers
+                .Include(c => c.Benefit)
+                .ThenInclude(b => b.BenefitDetails)
+                .FirstOrDefaultAsync(c => c.Id == id && !c.IsDeleted);
         }
 
         public async Task<Consumer> AddAsync(Consumer addConsumer)
         {
             await db.Consumers.AddAsync(addConsumer);
-
-            await db.SaveChangesAsync();
-
-            var calculatedConsumer = await CalculateBenefitsAsync(addConsumer);
-
-            return calculatedConsumer;
+            return addConsumer;
         }
 
         public async Task<Consumer?> UpdateAsync(Consumer updateConsumer)
@@ -138,15 +106,13 @@ namespace LifeInsuranceRetirement.Data
             if (consumer != null)
             {
                 db.Entry(consumer).State = EntityState.Detached;
-
+                updateConsumer.Id = consumer.Id;
+                updateConsumer.CreatedBy = consumer.CreatedBy;
+                updateConsumer.CreatedDT = consumer.CreatedDT;
                 var entity = db.Consumers.Attach(updateConsumer);
                 entity.State = EntityState.Modified;
 
-                await db.SaveChangesAsync();
-
-                var calculatedConsumer = await CalculateBenefitsAsync(updateConsumer);
-
-                return calculatedConsumer;
+                consumer = updateConsumer;
             }
 
             return consumer;
@@ -155,53 +121,36 @@ namespace LifeInsuranceRetirement.Data
         public async Task<Consumer?> DeleteAsync(int id)
         {
             var consumer = await GetByIdAsync(id);
-
             if (consumer != null)
             {
-                if (consumer.Benefits?.Count() > 0)
-                {
-                    db.Benefits.RemoveRange(consumer.Benefits);
-                }
-
-                db.Consumers.Remove(consumer);
-                await db.SaveChangesAsync();
+                consumer.IsDeleted = true;
             }
-
             return consumer;
         }
 
-        public async Task<Consumer> CalculateBenefitsAsync(Consumer calculateConsumer)
+        public async Task<IEnumerable<ConsumerLogs>> GetLogsAsync(int consumerId)
         {
-            var configuration = await configurationData.GetAsync();
-            var consumer = await GetByIdAsync(calculateConsumer.Id);
+            return await db.ConsumerLogs
+                .Include(l => l.Benefit)
+                .ThenInclude(b => b.BenefitDetails)
+                .Where(l => l.ConsumerId == consumerId)
+                .ToListAsync();
+        }
 
-            if (consumer != null)
-            {
-                if (consumer.Benefits?.Count() > 0)
-                {
-                    db.Benefits.RemoveRange(consumer.Benefits);
-                    db.SaveChanges();
-                }
+        public async Task<ConsumerLogs> AddLogsAsync(ConsumerLogs addConsumerLogs)
+        {
+            await db.ConsumerLogs.AddAsync(addConsumerLogs);
+            return addConsumerLogs;
+        }
 
-                var newBenefits = new List<Benefits>();
+        public int Commit()
+        {
+            return db.SaveChanges();
+        }
 
-                for (int i = (configuration.MinRange ?? 1); i <= (configuration.MaxRange ?? 1); i += (configuration.Increments ?? 1))
-                {
-                    newBenefits.Add(new Benefits()
-                    {
-                        Multiple = i,
-                        ConfigurationId = configuration.Id,
-                        ConsumerId = consumer.Id
-                    });
-                }
-
-                consumer.Benefits = newBenefits;
-                await db.SaveChangesAsync();
-
-                return consumer;
-            }
-
-            return calculateConsumer;
+        public async Task<int> CommitAsync()
+        {
+            return await db.SaveChangesAsync();
         }
     }
 }
